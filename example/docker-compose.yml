@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3'
 
 services:
   docker-notifier:
@@ -6,6 +6,5 @@ services:
     container_name: docker-notifier
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - HOST_NAME=${HOST_NAME}
+      - ./config.json:/etc/docker-notifier/config.json
     restart: always
