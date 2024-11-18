@@ -1,13 +1,15 @@
 import requests
 import docker
 import time
-import os
+import json
 
-amir_chat_id = 6371168857
-dev_chat_id = -4040648190
-noc_chat_id = -1002372829101
+with open("config.json") as f:
+    config = json.load(f)
 
-hostname = os.getenv("HOST_NAME", "Unknown Host")
+bot_token = config["bot_token"]
+chat_ids = config["chat_ids"]
+exit_chat_ids = config["exit_chat_ids"]
+hostname = config["hostname"]
 
 def send_message(message, chat_id):
     bot_token = '8004860601:AAEMpaK6oT_Z27Od9fyzAJkb7RGAELgONeE'
@@ -35,8 +37,9 @@ def main():
         ]
         
         message = "\n".join(messages)
-        
-        send_message(message, amir_chat_id)
+
+        for chatid in chat_ids:
+            send_message(message, chatid)        
     
     try:        
         while True:            
@@ -77,11 +80,12 @@ def main():
                         message = "\n".join(messages)
 
                         if not first_time:
-                            send_message(message, amir_chat_id)
-                            # send_message(message, noc_chat_id)
+                            for chatid in chat_ids:
+                                send_message(message, chatid)
                         
-                            # if exit_code != 0:
-                                # send_message(message, dev_chat_id)
+                            if exit_code != 0:
+                                for chatid in exit_chat_ids:
+                                    send_message(message, chatid)
                         
                         container_status[name] = status
                     elif status == "running":
@@ -98,11 +102,8 @@ def main():
                         message = "\n".join(messages)
                         
                         if not first_time:
-                            send_message(message, amir_chat_id)
-                            # send_message(message, noc_chat_id)
-                        
-                            # if exit_code != 0:
-                                # send_message(message, dev_chat_id)
+                            for chatid in chat_ids:
+                                send_message(message, chatid)
                                 
                         container_status[name] = status
 
@@ -120,8 +121,8 @@ def main():
                     
                     message = "\n".join(messages)
                     
-                    send_message(message, amir_chat_id)
-                    # send_message(message, noc_chat_id)
+                    for chatid in chat_ids:
+                        send_message(message, chatid)
                     
                     del container_status[name]
                 
@@ -138,8 +139,9 @@ def main():
         
         message = "\n".join(messages)
         
-        send_message(message, amir_chat_id)
-        # send_message(message, noc_chat_id)
+        for chatid in chat_ids:
+            send_message(message, chatid)
+        
     except Exception as e:
         messages = [
             "🐳 Docker Notifier",
@@ -150,8 +152,8 @@ def main():
         
         message = "\n".join(messages)
         
-        send_message(message, amir_chat_id)
-        # send_message(message, noc_chat_id)
+        for chatid in chat_ids:
+            send_message(message, chatid)
         
 if __name__ == "__main__":
     main()
