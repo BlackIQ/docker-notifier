@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  docker-notifier:
+    image: registry.rahpoo.ir/docker-notifier:latest
+    container_name: docker-notifier
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - HOST_NAME=${HOST_NAME}
+    command: server /data --console-address ":9001"
+    restart: always
