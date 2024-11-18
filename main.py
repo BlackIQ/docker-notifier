@@ -3,8 +3,6 @@ import docker
 import time
 import os
 
-first_time = True
-
 amir_chat_id = 6371168857
 dev_chat_id = -4040648190
 noc_chat_id = -1002372829101
@@ -22,7 +20,9 @@ def send_message(message, chat_id):
     requests.post(
         f"https://api.telegram.org/bot{bot_token}/sendMessage", data=data)
 
-def main():
+def main():    
+    first_time = True
+    
     client = docker.from_env()
     container_status = {}
         
@@ -38,8 +38,8 @@ def main():
         
         send_message(message, amir_chat_id)
     
-    try:
-        while True:
+    try:        
+        while True:            
             running_containers = client.containers.list(all=True)
             current_status = {container.name: container.status for container in running_containers}
 
@@ -124,9 +124,8 @@ def main():
                     # send_message(message, noc_chat_id)
                     
                     del container_status[name]
-
-            if not first_time:
-                first_time = False
+                
+            first_time = False
                 
             time.sleep(5)
     except KeyboardInterrupt:
