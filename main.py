@@ -11,9 +11,7 @@ chat_ids = config["chat_ids"]
 exit_chat_ids = config["exit_chat_ids"]
 hostname = config["hostname"]
 
-def send_message(message, chat_id):
-    bot_token = bot_token
-        
+def send_message(message, chat_id):        
     data = {
         "chat_id": chat_id,
         "text": message
