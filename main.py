@@ -125,6 +125,9 @@ def main():
                     
                     del container_status[name]
 
+            if not first_time:
+                first_time = False
+                
             time.sleep(5)
     except KeyboardInterrupt:
         messages = [
