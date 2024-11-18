@@ -1,0 +1,6 @@
+{
+  "hostname": "your_host_name",
+  "bot_token": "bot_token",
+  "chat_ids": [1234, -9876],
+  "exit_chat_ids": [4321, -6789]
+}
