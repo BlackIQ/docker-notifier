@@ -8,5 +8,4 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - HOST_NAME=${HOST_NAME}
-    command: server /data --console-address ":9001"
     restart: always
