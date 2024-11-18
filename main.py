@@ -3,7 +3,7 @@ import docker
 import time
 import json
 
-with open("config.json") as f:
+with open("/etc/docker-notifier/config.json") as f:
     config = json.load(f)
 
 bot_token = config["bot_token"]
@@ -12,7 +12,7 @@ exit_chat_ids = config["exit_chat_ids"]
 hostname = config["hostname"]
 
 def send_message(message, chat_id):
-    bot_token = '8004860601:AAEMpaK6oT_Z27Od9fyzAJkb7RGAELgONeE'
+    bot_token = bot_token
         
     data = {
         "chat_id": chat_id,
