@@ -119,7 +119,9 @@ def main():
                     ]
                     
                     message = "\n".join(messages)
+                    
                     send_message(message, amir_chat_id)
+                    # send_message(message, noc_chat_id)
                     
                     del container_status[name]
 
@@ -135,6 +137,7 @@ def main():
         message = "\n".join(messages)
         
         send_message(message, amir_chat_id)
+        # send_message(message, noc_chat_id)
     except Exception as e:
         messages = [
             "🐳 Docker Notifier",
@@ -146,6 +149,7 @@ def main():
         message = "\n".join(messages)
         
         send_message(message, amir_chat_id)
+        # send_message(message, noc_chat_id)
         
 if __name__ == "__main__":
     main()
