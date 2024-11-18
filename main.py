@@ -3,6 +3,8 @@ import docker
 import time
 import os
 
+first_time = True
+
 amir_chat_id = 6371168857
 dev_chat_id = -4040648190
 noc_chat_id = -1002372829101
@@ -23,8 +25,18 @@ def send_message(message, chat_id):
 def main():
     client = docker.from_env()
     container_status = {}
-    
-    print("Monitoring Docker containers...")
+        
+    if first_time:
+        messages = [
+            "🐳 Docker Notifier",
+            "",
+            "Service is running...",
+            f"Host: #{hostname}"
+        ]
+        
+        message = "\n".join(messages)
+        
+        send_message(message, amir_chat_id)
     
     try:
         while True:
@@ -41,7 +53,6 @@ def main():
                     if status == "exited":
                         exit_code = container.attrs['State']['ExitCode']
                         
-                        # Handle different exit codes
                         if exit_code == 0:
                             reason = "Container stopped successfully."
                         elif exit_code == 137:
@@ -64,11 +75,13 @@ def main():
                         ]
                         
                         message = "\n".join(messages)
-                        send_message(message, amir_chat_id)
-                        # send_message(message, noc_chat_id)
+
+                        if not first_time:
+                            send_message(message, amir_chat_id)
+                            # send_message(message, noc_chat_id)
                         
-                        # if exit_code != 0:
-                            # send_message(message, dev_chat_id)
+                            # if exit_code != 0:
+                                # send_message(message, dev_chat_id)
                         
                         container_status[name] = status
                     elif status == "running":
@@ -83,8 +96,14 @@ def main():
                         ]
                         
                         message = "\n".join(messages)
-                        send_message(message, amir_chat_id)
                         
+                        if not first_time:
+                            send_message(message, amir_chat_id)
+                            # send_message(message, noc_chat_id)
+                        
+                            # if exit_code != 0:
+                                # send_message(message, dev_chat_id)
+                                
                         container_status[name] = status
 
             for name in list(container_status.keys()):
@@ -106,9 +125,27 @@ def main():
 
             time.sleep(5)
     except KeyboardInterrupt:
-        print("\nMonitoring stopped.")
+        messages = [
+            "🐳 Docker Notifier",
+            "",
+            "Service is stopped...",
+            f"Host: #{hostname}"
+        ]
+        
+        message = "\n".join(messages)
+        
+        send_message(message, amir_chat_id)
     except Exception as e:
-        print(f"Error: {e}")
-
+        messages = [
+            "🐳 Docker Notifier",
+            "",
+            "Service has error...",
+            f"Host: #{hostname}",
+        ]
+        
+        message = "\n".join(messages)
+        
+        send_message(message, amir_chat_id)
+        
 if __name__ == "__main__":
     main()
